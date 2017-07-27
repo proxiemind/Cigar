@@ -1,5 +1,5 @@
 (function(wHandle, wjQuery) {
-    var CONNECTION_URL = "145.239.81.206:4011", // Default Connection
+    var CONNECTION_URL = location.search.split('ip=')[1] != 'undefined' ? location.search.split('ip=')[1] : "145.239.81.206:4011", // Default Connection
         SKIN_URL = "./skins/"; // Skin Directory
 
     wHandle.setserver = function(arg) {
