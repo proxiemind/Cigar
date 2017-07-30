@@ -1022,7 +1022,7 @@
         drawLineX = 0,
         drawLineY = 0,
         Ra = 0,
-        teamColor = ["#333333", "#FF3333", "#33FF33", "#3333FF"],
+        teamColor = ["#333333","#df0000", "#00df00", "#0000df", "#8c32df", "#dfdf00"],
         xa = false,
         zoom = 1,
         isTouchStart = "ontouchstart" in wHandle && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
