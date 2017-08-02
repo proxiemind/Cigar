@@ -531,14 +531,14 @@
         var from = len - 15;
         if (from < 0) from = 0;
         for (var i = 0; i < (len - from); i++) {
-            var chatName = new UText(18, chatBoard[i + from].color);
+            var chatName = new UText(18, chatBoard[i + from].color, 1, '#AAAAAA');
             chatName.setValue(chatBoard[i + from].name);
             var width = chatName.getWidth();
             var a = chatName.render();
             ctx.drawImage(a, 15, chatCanvas.height / scaleFactor - 24 * (len - i - from));
 
             var chatText = new UText(18, '#666666');
-            chatText.setValue(':' + chatBoard[i + from].message);
+            chatText.setValue(': ' + chatBoard[i + from].message);
             a = chatText.render();
             ctx.drawImage(a, 15 + width * 1.8, chatCanvas.height / scaleFactor - 24 * (len - from - i));
         }
