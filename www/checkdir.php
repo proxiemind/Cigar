@@ -5,6 +5,7 @@ if (is_ajax()) {
 		$action = $_POST["action"];
 		switch($action) {
 			case "test": test_function(); break;
+			case 'link': generateLink(); break;
 		}
 	}
 }
@@ -25,6 +26,14 @@ function test_function(){
 	$return["names"] = json_encode($images);
 	$return["json"] = json_encode($return);
 	echo json_encode($return);
+}
+
+function generateLink() {
+
+	$return["link"] = json_encode(random_int(6000, 6999));
+	$return["json"] = json_encode($return);
+	echo json_encode($return);
+
 }
 
 ?>

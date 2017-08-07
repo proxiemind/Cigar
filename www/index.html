@@ -47,6 +47,26 @@
     <div id="overlays">
         <div id="helloDialog">
             <form role="form">
+                <div class="mb-10">
+                    <h3>Skins</h3>
+                    <div class="circular" style="background-image: url(&quot;./../skins/pxm.png&quot;); margin: auto;" data-toggle="modal" data-target="#inPageModal" onclick="openSkinsList();"></div>
+                </div>
+                <div class="mb-10" style="left: 360px;">
+                    <h3>Match Maker</h3>
+                    <div class="form-group">
+                        <select id="custommode" class="form-control" >
+                            <option disabled>Custommode</option>
+                            <option selected>1v1</option>
+                        </select>
+                        <br clear="both" />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>
+                        <button type="submit" id="getServer" onclick="getLink(); return false;" class="btn btn-play btn-primary btn-needs-server">Create</button>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <h2 id="title">Community Servers</h2>
                 </div>
@@ -54,41 +74,28 @@
                 <div class="form-group">
                     <input id="nick" class="form-control save" data-box-id="0" placeholder="Nick" maxlength="15" />
                     <select id="gamemode" class="form-control" onchange="setserver($(this).val());" required>
-                        <option selected disabled>Gamemode:</option>
-                        <option value="145.239.81.206:4001">EU | Duel#1</option>
-                        <option value="145.239.81.206:4002">EU | Duel#2</option>
-                        <option value="145.239.81.206:4003">EU | Duel#3</option>
-                        <option value="145.239.81.206:4004">EU | Duel#4</option>
-                        <option value="145.239.81.206:4005">EU | Duel#5</option>
-                        <option value="145.239.81.206:4011">EU | LMS</option>
-                        <option value="145.239.81.206:4021">EU | Rush</option>
-                        <option value="66.70.189.222:4001">NA | Duel#1</option>
-                        <option value="66.70.189.222:4002">NA | Duel#2</option>
-                        <option value="66.70.189.222:4003">NA | Duel#3</option>
-                        <option value="66.70.189.222:4004">NA | Duel#4</option>
-                        <option value="66.70.189.222:4005">NA | Duel#5</option>
-                        <option value="66.70.189.222:4011">NA | LMS</option>
-                        <option value="66.70.189.222:4021">NA | Rush</option>
+                        <option selected disabled>Gamemode</option>
+                        <option value="4011">LMS</option>
+                        <option value="4021">Rush</option>
+                        <option value="4031">Teams</option>
                     </select>
                     <br clear="both" />
                 </div>
 
                 <div class="form-group">
+                    <button id="settings-btn" onclick="$('#settings, #instructions').toggle(); return false;" class="btn btn-info btn-settings"><i class="glyphicon glyphicon-cog"></i></button>
+                    <button id="spectate-btn" onclick="spectate(); return false;" class="btn btn-warning btn-spectate btn-needs-server"><i class="glyphicon glyphicon-eye-open"></i></button>
                     <button type="submit" id="play-btn" onclick="setNick(document.getElementById('nick').value); return false;" class="btn btn-play btn-primary btn-needs-server">Play</button>
-                    <button onclick="$('#settings, #instructions').toggle(); return false;" class="btn btn-info btn-settings" id="settings-btn"><i class="glyphicon glyphicon-cog"></i></button>
                     <br clear="both" />
-                    <div class="mb-10">
-                        <a data-toggle="modal" data-target="#inPageModal" onclick="openSkinsList();" class="btn-primary btn btn-info" role="button" style="width: 100%;">Skins Gallery</a>
-                    </div>
                 </div>
 
                 <div id="settings" class="checkbox" style="display:none;">
-                    <div class="form-group" id="mainform">
-                        <button id="spectate-btn" onclick="spectate(); return false;" style="width: 100%" class="btn btn-warning btn-spectate btn-needs-server">Spectate
-                        </button>
-                        <br clear="both" />
-                    </div>
                     <div style="margin: 6px;">
+                        <select id="region" class="form-control" onchange="setRegion($(this).val());" required>
+                            <option value="EU">Europe</option>
+                            <option value="NA">North America</option>
+                        </select>
+                        <br clear="both" />
                         <label>
                             <input type="checkbox" class="save" data-box-id="1" onchange="setSkins(!$(this).is(':checked'));"> No skins</label>
                         <label>

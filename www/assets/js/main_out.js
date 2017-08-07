@@ -1,10 +1,12 @@
 (function(wHandle, wjQuery) {
+    var aREGION = {'NA': '66.70.189.222', 'EU': '145.239.81.206'};
     var CONNECTION_URL = location.search.split('ip=')[1] !== undefined ? location.search.split('ip=')[1] : "145.239.81.206:4011", // Default Connection
         SKIN_URL = "./skins/"; // Skin Directory
 
     wHandle.setserver = function(arg) {
-        if (arg != CONNECTION_URL) {
-            CONNECTION_URL = arg;
+        var combineLink = /*aREGION[region] + */'localhost:' + arg;
+        if (combineLink != CONNECTION_URL) {
+            CONNECTION_URL = combineLink;
             showConnecting();
         }
     };
@@ -911,7 +913,7 @@
             if (drawTeam || showName) {
                 lbCanvas = document.createElement("canvas");
                 var ctx = lbCanvas.getContext("2d"),
-                    boardLength = 60;
+                    boardLength = 70;
                 boardLength = !drawTeam ? boardLength + 24 * leaderBoard.length : boardLength + 180;
                 var scaleFactor = Math.min(0.22 * canvasHeight, Math.min(200, .3 * canvasWidth)) * 0.005;
                 lbCanvas.width = 200 * scaleFactor;
@@ -938,8 +940,8 @@
                         if (me) playerCells[0].name && (c = playerCells[0].name);
                         me ? ctx.fillStyle = "#FFAAAA" : ctx.fillStyle = "#FFFFFF";
                         if (!noRanking) c = b + 1 + ". " + c;
-                        var start = (ctx.measureText(c).width > 200) ? 2 : 100 - ctx.measureText(c).width * 0.5;
-                        ctx.fillText(c, start, 70 + 24 * b);
+                        // var start = (ctx.measureText(c).width > 200) ? 2 : 100 - ctx.measureText(c).width * 0.5;
+                        ctx.fillText(c, 10, 70 + 24 * b);
                     }
                 } else {
                     for (b = c = 0; b < teamScores.length; ++b) {
@@ -1001,6 +1003,7 @@
         rightPos = 1E4,
         bottomPos = 1E4,
         viewZoom = 1,
+        region = 'EU',
         showSkin = true,
         showName = true,
         showColor = false,
@@ -1034,6 +1037,9 @@
     var wCanvas = document.createElement("canvas");
     var playerStat = null;
     wHandle.isSpectating = false;
+    wHandle.setRegion = function(arg) {
+        region = arg;
+    };
     wHandle.setNick = function(arg) {
         hideOverlays();
         userNickName = arg;
@@ -1082,6 +1088,21 @@
                 $('#inPageModalBody').html(data);
             });
         }
+    };
+    wHandle.getLink = function() {
+        wjQuery.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "checkdir.php",
+            data: {
+                "action": "link"
+            },
+            success: function(data) {
+                response = JSON.parse(data["link"]);
+                setserver(response);
+                setNick(document.getElementById('nick').value);
+            }
+        });
     };
 
     if (null != wHandle.localStorage) {
