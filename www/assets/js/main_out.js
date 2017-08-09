@@ -533,7 +533,7 @@
         var from = len - 15;
         if (from < 0) from = 0;
         for (var i = 0; i < (len - from); i++) {
-            var chatName = new UText(18, chatBoard[i + from].color, 1, '#AAAAAA');
+            var chatName = new UText(18, chatBoard[i + from].color);
             chatName.setValue(chatBoard[i + from].name);
             var width = chatName.getWidth();
             var a = chatName.render();
@@ -609,6 +609,8 @@
                 if (0 == char) break;
                 name += String.fromCharCode(char);
             }
+
+            name = name == 'An unnamed cell' ? '' : name;
 
             var node = null;
             if (nodes.hasOwnProperty(nodeid)) {
@@ -998,6 +1000,7 @@
         cb = 0,
         timestamp = 0,
         userNickName = null,
+        selectedSkin = '',
         leftPos = 0,
         topPos = 0,
         rightPos = 1E4,
@@ -1031,7 +1034,9 @@
         isTouchStart = "ontouchstart" in wHandle && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
         splitIcon = new Image,
         ejectIcon = new Image,
-        noRanking = false;
+        noRanking = false,
+        intervalHandler,
+        searchTries = 5;
     splitIcon.src = "assets/img/split.png";
     ejectIcon.src = "assets/img/feed.png";
     var wCanvas = document.createElement("canvas");
@@ -1040,9 +1045,9 @@
     wHandle.setRegion = function(arg) {
         region = arg;
     };
-    wHandle.setNick = function(arg) {
+    wHandle.setNick = function() {
         hideOverlays();
-        userNickName = arg;
+        userNickName = '<%' + selectedSkin + '>' + document.getElementById('nick').value;
         sendNickName();
         userScore = 0
     };
@@ -1089,18 +1094,91 @@
             });
         }
     };
+    wHandle.skinSelection = function(arg) {
+
+        selectedSkin = $(arg).find('.title').text();
+        $('#currentSkin').css("background-image", "url('./../skins/" + selectedSkin + ".png')");
+        if(selectedSkin == 0)
+            selectedSkin = '';
+        // $.cookie('skin', selectedSkin);
+
+    };
     wHandle.getLink = function() {
         wjQuery.ajax({
             type: "POST",
             dataType: "json",
             url: "checkdir.php",
             data: {
-                "action": "link"
+                "action": "link",
+                "region": region
             },
             success: function(data) {
-                response = JSON.parse(data["link"]);
-                setserver(response);
-                setNick(document.getElementById('nick').value);
+                link = JSON.parse(data["link"]);
+                setserver(link);
+                setNick();
+            }
+        });
+    };
+    wHandle.queueStatus = function(id) {
+        wjQuery.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "checkdir.php",
+            data: {
+                "action": "queueStatus",
+                "id": id,
+                "region": region
+            },
+            success: function(data) {
+                if(--searchTries <= 0) {
+                    clearInterval(intervalHandler);
+                    intervalHandler = null;
+                    searchTries = 5;
+                    $('#match-maker-status').html('Press <b>Create</b> to get server<br/><b>Random</b> for random 1v1');
+                    $('#queuePlayer').removeAttr('disabled');
+                }
+
+                status = JSON.parse(data["status"]);
+                if(status == 1) {
+                    clearInterval(intervalHandler);
+                    intervalHandler = null;
+                    searchTries = 5;
+                    link = JSON.parse(data["link"]);
+                    setserver(link);
+                    setNick();
+                    $('#match-maker-status').html('Press <b>Create</b> to get server<br/><b>Random</b> for random 1v1');
+                    $('#queuePlayer').removeAttr('disabled');
+                }
+            }
+        });
+    };
+    wHandle.queueMe = function() {
+        if(intervalHandler)
+            return;
+
+        wjQuery.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "checkdir.php",
+            data: {
+                "action": "queue",
+                "region": region
+            },
+            success: function(data) {
+                status = JSON.parse(data["status"]);
+                if(status == 1) {
+                    link = JSON.parse(data["link"]);
+                    setserver(link);
+                    setNick();
+                } else {
+                    $('#match-maker-status').html('Searching for<br>1v1');
+                    $('#queuePlayer').attr('disabled','disabled');
+                    id = JSON.parse(data["id"]);
+                    intervalHandler = setInterval(function(){
+                        queueStatus(id);
+                    }, 10000);
+                }
+
             }
         });
     };

@@ -49,7 +49,7 @@
             <form role="form">
                 <div class="mb-10">
                     <h3>Skins</h3>
-                    <div class="circular" style="background-image: url(&quot;./../skins/pxm.png&quot;); margin: auto;" data-toggle="modal" data-target="#inPageModal" onclick="openSkinsList();"></div>
+                    <div id="currentSkin" class="circular" style="background-image: url(&quot;./../skins/0.png&quot;); margin: auto;" data-toggle="modal" data-target="#inPageModal" onclick="openSkinsList();"></div>
                 </div>
                 <div class="mb-10" style="left: 360px;">
                     <h3>Match Maker</h3>
@@ -58,12 +58,20 @@
                             <option disabled>Custommode</option>
                             <option selected>1v1</option>
                         </select>
-                        <br clear="both" />
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>
-                        <button type="submit" id="getServer" onclick="getLink(); return false;" class="btn btn-play btn-primary btn-needs-server">Create</button>
+                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>&nbsp;&nbsp;<button type="submit" id="getServer" onclick="getLink(); return false;" class="btn btn-play btn-primary btn-needs-server">Create</button>
+                    </div>
+
+                    <div>
+                        <hr/>
+                        <center>
+                            <span id="match-maker-status" class="text-muted">
+                                Press <b>Create</b> to get server<br/>
+                                <b>Random</b> for random 1v1
+                            </span>
+                        </center>
                     </div>
                 </div>
 
