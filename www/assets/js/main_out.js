@@ -4,7 +4,7 @@
         SKIN_URL = "./skins/"; // Skin Directory
 
     wHandle.setserver = function(arg) {
-        var combineLink = /*aREGION[region] + */'localhost:' + arg;
+        var combineLink = aREGION[region] + ':' + arg;
         if (combineLink != CONNECTION_URL) {
             CONNECTION_URL = combineLink;
             showConnecting();
@@ -1115,7 +1115,7 @@
             success: function(data) {
                 link = JSON.parse(data["link"]);
                 setserver(link);
-                setNick();
+                spectate();
             }
         });
     };
@@ -1145,7 +1145,7 @@
                     searchTries = 5;
                     link = JSON.parse(data["link"]);
                     setserver(link);
-                    setNick();
+                    spectate();
                     $('#match-maker-status').html('Press <b>Create</b> to get server<br/><b>Random</b> for random 1v1');
                     $('#queuePlayer').removeAttr('disabled');
                 }
@@ -1463,8 +1463,8 @@
                 ctx.closePath();
                 var skinName = this.name.toLowerCase();
 
-                // Load Premium skin if we have one set
-                if (typeof this._skin != 'undefined' && this._skin != '') {
+                // Load Premium skin if we have one set and if not Team Mode
+                if (typeof this._skin != 'undefined' && this._skin != '' && teamScores == null) {
                     if (this._skin[0] == '%') {
                         skinName = this._skin.substring(1);
                     }
