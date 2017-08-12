@@ -1,6 +1,6 @@
 (function(wHandle, wjQuery) {
     var aREGION = {'NA': '66.70.189.222', 'EU': '145.239.81.206'};
-    var CONNECTION_URL = location.search.split('ip=')[1] !== undefined ? location.search.split('ip=')[1] : "145.239.81.206:4011", // Default Connection
+    var CONNECTION_URL = location.search.split('ip=')[1] !== undefined ? location.search.split('ip=')[1] : location.hash ? aREGION[location.hash.substring(1).split('-')[0]] + ':' + location.hash.substring(1).split('-')[1] : "145.239.81.206:4011", // Default Connection
         SKIN_URL = "./skins/"; // Skin Directory
 
     wHandle.setserver = function(arg) {
@@ -8,6 +8,7 @@
         if (combineLink != CONNECTION_URL) {
             CONNECTION_URL = combineLink;
             showConnecting();
+            history.pushState('', '', '/#' + arg);
         }
     };
 
