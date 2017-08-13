@@ -8,7 +8,7 @@
         if (combineLink != CONNECTION_URL) {
             CONNECTION_URL = combineLink;
             showConnecting();
-            history.pushState('', '', '/#' + arg);
+            history.pushState('', '', '/#' + region + '-' + arg);
         }
     };
 
@@ -1104,7 +1104,7 @@
         // $.cookie('skin', selectedSkin);
 
     };
-    wHandle.getLink = function() {
+    wHandle.getLink = function(arg) {
         wjQuery.ajax({
             type: "POST",
             dataType: "json",
@@ -1115,8 +1115,15 @@
             },
             success: function(data) {
                 link = JSON.parse(data["link"]);
-                setserver(link);
-                spectate();
+                switch(arg) {
+                    case 1: // Go to Agar.io client
+                        window.top.location.href = 'http://agar.io/?ip=' + aREGION[region] + ':' + link;
+                        break;
+                    default:
+                        setserver(link);
+                        spectate();
+                        break;
+                }
             }
         });
     };

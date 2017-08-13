@@ -61,7 +61,11 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>&nbsp;&nbsp;<button type="submit" id="getServer" onclick="getLink(); return false;" class="btn btn-play btn-primary btn-needs-server">Create</button>
+                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>&nbsp;&nbsp;<span class="dropdown"><button type="button" id="getServer" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Create <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="getLink(0);">Stay in here</a></li>
+                            <li><a href="#" onclick="getLink(1);">Play in Agar.io</a></li>
+                        </ul></span>
                     </div>
 
                     <div>
