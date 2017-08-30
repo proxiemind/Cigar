@@ -1008,6 +1008,7 @@
         bottomPos = 1E4,
         viewZoom = 1,
         region = 'EU',
+        custommode = '1v1',
         showSkin = true,
         showName = true,
         showColor = false,
@@ -1045,6 +1046,9 @@
     wHandle.isSpectating = false;
     wHandle.setRegion = function(arg) {
         region = arg;
+    };
+    wHandle.setCustomMode = function(arg) {
+        custommode = arg;
     };
     wHandle.setNick = function() {
         hideOverlays();
@@ -1111,6 +1115,7 @@
             url: "checkdir.php",
             data: {
                 "action": "link",
+                "mode": custommode,
                 "region": region
             },
             success: function(data) {

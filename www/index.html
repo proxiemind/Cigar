@@ -54,14 +54,19 @@
                 <div class="mb-10" style="left: 360px;">
                     <h3>Match Maker</h3>
                     <div class="form-group">
-                        <select id="custommode" class="form-control" >
-                            <option disabled>Custommode</option>
-                            <option selected>1v1</option>
+                        <select id="custommode" onchange="setCustomMode($(this).val());" class="form-control" >
+                            <option selected disabled>Custommode</option>
+                            <option value="1v1">1v1</option>
+                            <option value="2v2P">2v2 Party</option>
+                            <option value="2v2v2P">2v2v2 Party</option>
+                            <option value="2v2T">2v2 Teams</option>
+                            <option value="2v2v2T">2v2v2 Teams</option>
+                            <option value="3v3v3T">3v3v3 Teams</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server">Random</button>&nbsp;&nbsp;<span class="dropdown"><button type="button" id="getServer" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Create <span class="caret"></span></button>
+                        <button type="submit" id="queuePlayer" onclick="queueMe(); return false;" class="btn btn-success btn-primary btn-needs-server" disabled alt="No one is using this functionality">Random</button>&nbsp;&nbsp;<span class="dropdown"><button type="button" id="getServer" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Create <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="getLink(0);">Stay in here</a></li>
                             <li><a href="#" onclick="getLink(1);">Play in Agar.io</a></li>
@@ -73,7 +78,7 @@
                         <center>
                             <span id="match-maker-status" class="text-muted">
                                 Press <b>Create</b> to get server<br/>
-                                <b>Random</b> for random 1v1
+                                <s><b>Random</b> for random 1v1</s>
                             </span>
                         </center>
                     </div>
